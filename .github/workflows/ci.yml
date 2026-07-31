@@ -36,7 +36,7 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
       - name: Instalar dependencias del frontend
         working-directory: ./frontend
@@ -57,4 +57,4 @@ jobs:
         run: docker build -t techinventory-backend ./backend
 
       - name: Build imagen Docker - Frontend
-        run: docker build -t techinventory-frontend ./frontend
+        run: docker build -t techinventory-frontend ./frontendgit status
