@@ -1,60 +1,59 @@
-# .github/workflows/ci.yml
 name: CI - TechInventory Solutions
-
+ 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
+ 
 jobs:
   build-backend:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout código
+      - name: Checkout codigo
         uses: actions/checkout@v4
-
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Instalar dependencias del backend
-        working-directory: ./backend
-        run: npm install
-
-      - name: Verificar sintaxis del backend
-        working-directory: ./backend
-        run: node -c server.js
-
-  build-frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout código
-        uses: actions/checkout@v4
-
+ 
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '24'
-
+ 
+      - name: Instalar dependencias del backend
+        working-directory: ./backend
+        run: npm install
+ 
+      - name: Verificar sintaxis del backend
+        working-directory: ./backend
+        run: node -c server.js
+ 
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codigo
+        uses: actions/checkout@v4
+ 
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+ 
       - name: Instalar dependencias del frontend
         working-directory: ./frontend
         run: npm install
-
-      - name: Compilar Angular (build de producción)
+ 
+      - name: Compilar Angular (build de produccion)
         working-directory: ./frontend
         run: npm run build
-
+ 
   build-docker:
     runs-on: ubuntu-latest
     needs: [build-backend, build-frontend]
     steps:
-      - name: Checkout código
+      - name: Checkout codigo
         uses: actions/checkout@v4
-
+ 
       - name: Build imagen Docker - Backend
         run: docker build -t techinventory-backend ./backend
-
+ 
       - name: Build imagen Docker - Frontend
-        run: docker build -t techinventory-frontend ./frontendgit status
+        run: docker build -t techinventory-frontend ./frontend
